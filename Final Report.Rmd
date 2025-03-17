@@ -1,0 +1,326 @@
+---
+title: "Final Project Report"
+author: "Yiyi Zhang"
+date: "2025-03-14"
+output:
+  html_document: default
+  pdf_document: default
+---
+## Prediction of neural activity in mice: analysis of the relationship between number of trials and neuronal bonding
+
+## Abstract
+
+We examine the interaction between trial numbers and neuronal activity across various mice based on experimental session details. **Exploratory Data Analysis (EDA)** was conducted for the sake of visualizing trial distributions and activation patterns in neurons. **Decision Tree and Linear Regression**, two prediction models, were used to predict neuron activity. We found that **mouse identity is a more stable predictor than trial number**, and the Decision Tree model performed better than Linear Regression. This indicates that **non-linear models** are more capable of detecting the underlying pattern in neural responses. In the future, **additional experimental factors** must be incorporated to enable precise predictions.
+
+## Introduction
+
+Understanding the way neurons react to behavioral tasks is valuable in neuroscience because it can possibly explain **how learning and memory formation is obtained in different subjects**. Here we investigate the neural activity across experimental sessions in different mice with the purpose to test **if trial numbers are a reliable predictor for the activation of neurons**.
+
+Importance to Research
+Predicting neural activity is vital in:
+- **Applications in medicine**: Reading brain activity in different states (e.g., Alzheimer's disease, epilepsy)
+- **AI & Machine Learning**: Building brain-like models for **neural networks**.
+- **Cognitive Science**: Watching different **subjects** respond to the same learning experiences.
+
+### Research Context
+Previous work shows that **neural activity is trial- and subject-specific (such as genetic differences, learning potential, and external factors)**. Such hypotheses are supported by this work by examination of real experimental data and comparison between different predictive models.
+
+Our objectives are: 
+- **Observe the distribution of trial numbers and the neurons' activity.** 
+- **Identify the most predictive factors** for the activation of neurons. 
+- **Comparing predictive models (Linear Regression vs. Decision Tree)**.
+
+## Exploratory Data Analysis
+
+### **Summary of the data set**
+The database contains the following major variables:
+- **Session** (int) - Session ID for the experiment.
+- **Num_Trials** (integer) - Number of tests per test session.
+- **Num_Neurons** (integer) - Number of neurons recorded during the session. 
+- **Mouse ** ('chr') - Target mouse ID for the session.
+
+### Summary Statistics
+The following table provides key descriptive statistics for the dataset, including the number of trials, the number of neurons recorded, and the distribution of sessions. (in Appendix)
+
+### Distribution of tests
+The histogram above shows the distribution of the number of trials over the session. If the distribution is skewed, this may indicate variability in test conditions.
+
+Most typical sessions have 200-300 trials, with others having many less or many more than that. Since it is left-skewed, the distribution shows that different sessions have different numbers of trials. This would mean that some sessions could possibly have either lasted for less or more time depending on the experimental conditions. (in Appendix)
+
+### Neuronal activity distribution
+This histogram shows the distribution of neuronal activity. High variances may indicate differences in experimental conditions or mouse responses.
+
+Neuron activity can be quite different for different sessions with the majority recording around 800-1200 neurons. Either extremely small or extremely large numbers are recorded for some sessions due to experimental circumstances, biological variations, or technological limitations. Such immense variety indicates that the activity of neurons never stays the same in every recording. (in Appendix)
+
+### Distribution of neuronal activity in each mouse
+The violin plot provides the distribution of the activity level of the neurons in the various mice, including the range and the density. Each mouse contains its own pattern for the activity level of the neurons, and the shape's width indicates the frequency with which certain values appear.
+
+Looking at the graph, Forssmann (green) is the most variable, showing the most changing neural response with each test. Cori (red) is the lowest and most consistent in activity, showing more steady use by the neurons. (in Appendix)
+
+### Analysis of correlation between test and neuronal activity
+The heatmap for the correlations indicates the correlations of Num_Trials and Num_Neurons with the darkest color representing the strongest correlations. On the diagonal are the values 1.00, representing the strongest correlation for each variable with itself.
+
+The coefficient of correlation between Num_Neurons and Num_Trials is 0.05, meaning that the linear correlation between the two is essentially nonexistent. This would suggest that the number of trials does not make for a reliable sole predictor for neuronal involvement and that other things can modulate the activity of the neurons. (in Appendix)
+
+### The relationship between experiments and neuronal activity
+The scatter plot illustrates the relationship between the number of trials and recorded neuronal activity. The purple trend line indicates that there may be a correlation between these two variables.
+
+There is hardly any relationship between trial numbers and neuronal activation, which is evidenced by the flat purple regression line. This shows that increased trial numbers don't always translate to increased activation of the neurons and that other factors such as mouse identity or task difficulty could be at play. (in Appendix)
+
+### Boxplot Analysis of Neuronal Activity Across Mice
+The boxplot shows the distribution of neuron activity across the different mice in terms of their center points and variabilities. Each box shows interquartile neuron activity with the black line across each box representing the median. Each mouse's data spread is represented by the whiskers that extend to the minimum and maximum values within each mouse.
+
+The most variable activity with maximum median is of Forssmann from the graph, which shows this mouse was more variable in neural response. Cori has the least median activity with less but more uniform neural activation. Both Hench and Lederberg have medium activity with slightly higher median but equally variable activity for Hench as for Lederberg. It reflects that the same animals may have different responses in terms of neurology depending upon the variable conditions of the animal as well as experimental. (in Appendix)
+
+## Predictive modeling
+
+In predicting neural activity, we tried two models:
+1. **Linear Regression**: It assumes a **linear relationship** between trial and neuronal activity.
+2. **Decision Tree**: Replicates **non-linear relations** with no imposition of functional form.
+
+Why are these models?
+- **Linear Regression** is convenient and understandable when we expect relations to be **linear**.
+- **Decision Tree** is adaptive and is able to **handle intricate interactions** among factors.
+- **Alternative models** (such as **Neural Networks or Random Forest**) could even be better predictors but require more training data to avoid overfitting.
+
+### Assumptions & Limitations 
+- **Linear Regression** assumes that the independent factors influence neuron activity additively. 
+- **Decision Trees** can handle **non-linear patterns** but are prone to **overfitting** with small datasets. 
+- **Future Work:** Experiment with **Random Forest** for the model interpretability vs. accuracy trade-off.
+
+### Neuronal activity in mice
+This box plot shows the differences in neuronal activity in different mice. If the range varies greatly, it suggests that individual mice have different neural responses.
+
+The boxplot illustrates considerable differences in the neurons' activity between the mice. Forssmann has the highest median neuron activity, while Cori has the lowest. The wide range of data for Forssmann shows greater variability in neural response, which could be due to variability in biological response or learning ability between mice.
+
+### Linear regression model
+We trained a linear regression model to predict neuronal activity using trial number and mouse identity. The model summary provides insight into the importance of each predictor.
+
+Summarization The linear model only explains 34.84% of the activity variance in the neurons (R² = 0.3484) and the p-value (p = 0.2766) is nonsignificant. It indicates that Num_Trials is a poor predictor for the activity in the neurons. What the findings are actually saying is that the identity of the mouse or other experimental factors can be more decisive. (in Appendix)
+
+### Model performance
+RMSE stands at 389.11, meaning that the model is off by 389 neurons on average. The excessive error shows that the model is unable to make accurate predictions for the neuron activity. The comparatively poor R² also shows that the model fails to describe the neuron activity fairly well, necessitating the use of an advanced method. (in Appendix)
+
+### Sensitivity analysis: decision trees
+We tested the decision tree model as an alternative to linear regression. Root-mean-square error comparisons help us understand which model generalizes better.
+
+Decision tree performs better with the lower RMSE value of 242.47 against the linear one with 389.11. This can be an indication that the activity of the neurons can be non-linear and the decision trees can identify it better than the linear models. (in Appendix)
+
+### Sensitivity Analysis: Model Comparison
+The linear model performed better than the random forest model, as evidenced by smaller RMSE values. This is due to the fact that:
+
+1. **Random Forest Overfitting**: Since the relatively small data set was used, the random forest model may have memorized patterns that are not generalizing well to new data.
+2. **Feature Importance**: The linear model assumes a linear relationship between trials and neuronal activity, whereas random forests rely on decision splits that are potentially inferior because of the size of the dataset. 3. **Bias-Variance Tradeoff**: As linear regression is simpler, it avoids high variance and makes more consistent predictions.
+
+For improving performance, **feature selection** and **hyperparameter tuning** on tree-based models can be attempted.
+
+### Feature Importance Analysis
+The variable importance plot for the Random Forest model shows the relative significance of the Num_Trials and Mouse identity in predicting Num_Neurons. Features are ordered according to the degree to which they reduce the model's error.
+
+According to the findings, Mouse identity accounts for more than Num_Trials, and so neuronal activity is more regulated by differences in the mice than by the numbers of the trial. This supports the observation that trial numbers are poor predictors by themselves and shows that biological or behavioral factors have more fundamental roles to play in the determination of neuronal engagement. (in Appendix)
+
+### Model selection and performance
+We trained several models, including linear regression, decision trees, and random forests. Random Forest achieved the best performance, but we further optimized it using hyperparameter tuning. (in Appendix)
+
+### Performance of the model on test data
+The model was applied to two test datasets, Test1 (Session 1) and Test2 (Session 18), to evaluate its prediction accuracy. The root-mean-square error (RMSE) values of 28,386.94 for test 1 and 42,626.94 for test 2 indicate a significant deviation between predicted and actual neuronal activity. High RMSE indicates that the model may be difficult to generalize across different sessions, which may be due to changes in experimental conditions, differences in neural responses in mice, or changes in data distribution. Further model tuning and feature engineering may be required to enhance predictive performance.
+
+## Discussion
+
+### **Main findings**
+1. **Mouse identity was more predictive than trial number**, revealing biological differences in neural activity.
+2. **Linear Regression does not perform well** (R² = 0.3484), confirming the linear model to be unsuitable.
+3. **Decision Tree and Random Forest performed better**, which indicates that **non-linearity is crucial in modeling neural activity**.
+
+### **Real-Life Applications**
+- **Neuroscience**: Such results are concordant with findings demonstrating that **neural involvement is individualized by differences**.
+- **Artificial Intelligence**: It can be applied with the same methods in **brain-machine interfaces** and **neural network training**.
+- **Medical Research**: Patterns in brain activity can be used to **diagnose neurological disorders**.
+
+### **Future Research**
+- **Enlarge the dataset** for increased generalizability. 
+- **include more features** such as trial length and external stimulus. 
+- **Attempt more advanced models** such as Gradient Boosting and Deep Learning.
+
+## Conclusion
+
+We established that **identity is a stronger predictive variable than trial number**. Decision tree modeling was much better than linear regression, which told us that **the data contains non-linear relations**. This project emphasizes the importance to consider **differences in individual cases when looking at neural activity**. In the future, experiments must include **bigger datasets, experimenting with different variables, and comparing more advanced machine learning models**.
+
+## Appendix
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(caret)
+library(knitr)
+
+data_dir <- "/Users/alicezhang/Desktop/STA141AProject/Data/sessions"
+
+session_data <- list()
+for (i in 1:18) {
+  file_path <- file.path(data_dir, paste0("session", i, ".rds"))
+  if (file.exists(file_path)) {
+    session_data[[i]] <- readRDS(file_path)
+  } else {
+    warning(paste("File not found:", file_path))
+  }
+}
+```
+
+```{r}
+summary_data <- data.frame(
+  Session = 1:18,
+  Num_Trials = sapply(session_data, function(x) length(x$feedback_type)),
+  Num_Neurons = sapply(session_data, function(x) nrow(x$spks[[1]])), 
+  Mouse = sapply(session_data, function(x) unique(x$mouse_name))
+)
+
+library(knitr)
+
+summary_table <- summary(summary_data)
+
+kable(summary_table, caption = "Table 1: Summary Statistics of the Dataset")
+```
+
+```{r}
+session_files <- list.files(data_dir, pattern = "*.rds", full.names = TRUE)
+session_data <- lapply(session_files, readRDS)
+
+df <- tibble(
+  Session = seq_along(session_data),
+  Num_Trials = sapply(session_data, function(x) length(x$feedback_type)),
+  Num_Neurons = sapply(session_data, function(x) nrow(x$spks[[1]])),
+  Mouse = sapply(session_data, function(x) unique(x$mouse_name))
+)
+
+glimpse(df)
+```
+
+```{r}
+ggplot(summary_data, aes(x = Num_Trials)) +
+  geom_histogram(fill = "coral", bins = 10, color = "black") +
+  labs(title = "Distribution of Number of Trials",
+       x = "Number of Trials",
+       y = "Frequency") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(summary_data, aes(x = Num_Neurons)) +
+  geom_histogram(fill = "pink", bins = 10, color = "black") +
+  labs(title = "Distribution of Neuron Activity",
+       x = "Number of Neurons",
+       y = "Frequency") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(summary_data, aes(x = Mouse, y = Num_Neurons, fill = Mouse)) +
+  geom_violin() +
+  labs(title = "Neuron Activity Distribution Per Mouse",
+       x = "Mouse",
+       y = "Number of Neurons") +
+  theme_minimal()
+```
+
+```{r}
+library(corrplot)
+
+cor_matrix <- cor(summary_data[, c("Num_Trials", "Num_Neurons")])
+corrplot(cor_matrix, method = "color", addCoef.col = "lightblue", tl.col = "black")
+```
+
+```{r}
+ggplot(summary_data, aes(x = Num_Trials, y = Num_Neurons)) +
+  geom_point(aes(color = Mouse), size = 3, alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE, color = "purple") +
+  labs(title = "Trials vs. Neuron Activity",
+       x = "Number of Trials",
+       y = "Number of Neurons",
+       caption = "Red line shows linear trend") +
+  theme_classic()
+```
+
+```{r}
+ggplot(summary_data, aes(x = Mouse, y = Num_Neurons, fill = Mouse)) +
+  geom_boxplot() +
+  labs(title = "Neuron Activity Across Mice",
+       x = "Mouse",
+       y = "Number of Neurons") +
+  theme_minimal()
+```
+
+```{r}
+set.seed(123)
+trainIndex <- createDataPartition(summary_data$Num_Neurons, p = 0.8, list = FALSE)
+train_data <- summary_data[trainIndex, ]
+test_data <- summary_data[-trainIndex, ]
+
+lm_model <- lm(Num_Neurons ~ Num_Trials + Mouse, data = train_data)
+
+summary(lm_model)
+```
+
+```{r}
+predictions <- predict(lm_model, newdata = test_data)
+
+rmse <- sqrt(mean((predictions - test_data$Num_Neurons)^2))
+
+r_squared <- cor(predictions, test_data$Num_Neurons)^2
+
+cat("Model RMSE:", rmse, "\n")
+cat("Model R²:", r_squared, "\n")
+```
+
+```{r}
+library(rpart)
+
+tree_model <- rpart(Num_Neurons ~ Num_Trials + Mouse, data = train_data, method = "anova")
+
+tree_predictions <- predict(tree_model, newdata = test_data)
+
+tree_rmse <- sqrt(mean((tree_predictions - test_data$Num_Neurons)^2))
+
+cat("Decision Tree RMSE:", tree_rmse, "\n")
+```
+
+```{r}
+library(randomForest)
+
+rf_model <- randomForest(Num_Neurons ~ Num_Trials + Mouse, data = train_data, importance = TRUE)
+
+varImpPlot(rf_model)
+```
+
+```{r}
+test1 <- readRDS("/Users/alicezhang/Desktop/STA141AProject/Data/test/test1.rds")
+test2 <- readRDS("/Users/alicezhang/Desktop/STA141AProject/Data/test/test2.rds")
+
+if (!is.data.frame(test1)) {
+  test1 <- data.frame(
+    Session = rep(1, length(test1$spks)), 
+    Num_Trials = length(test1$spks), 
+    Num_Neurons = sapply(test1$spks, length), 
+    Mouse = rep(test1$mouse_name, length(test1$spks)) 
+  )
+}
+
+if (!is.data.frame(test2)) {
+  test2 <- data.frame(
+    Session = rep(18, length(test2$spks)),  
+    Num_Trials = length(test2$spks),  
+    Num_Neurons = sapply(test2$spks, length),  
+    Mouse = rep(test2$mouse_name, length(test2$spks))  
+  )
+}
+
+test1_predictions <- predict(rf_model, newdata = test1)
+test2_predictions <- predict(rf_model, newdata = test2)
+
+test1_rmse <- sqrt(mean((test1_predictions - test1$Num_Neurons)^2))
+test2_rmse <- sqrt(mean((test2_predictions - test2$Num_Neurons)^2))
+
+cat("Test1 RMSE:", test1_rmse, "\n")
+cat("Test2 RMSE:", test2_rmse, "\n")
+```
